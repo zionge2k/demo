@@ -1,9 +1,18 @@
 services:
   postgres:
-    image: 'postgres:latest'
+    image: postgres:latest
+    container_name: demo
+    restart: always
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PG_LOG: all
+    command: ["postgres", "-c", "log_statement=all"]
     ports:
-      - '5432'
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
